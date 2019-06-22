@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>MLB Wager Recommendations</title>
+        <meta name="description" content="Given a game date, return the recommended MLB wagers for the day">
+        <link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=PT+Serif&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">              
+        <link href="style.css" type="text/css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>   
+        <script src="expertsys.js"></script>
+        <script src="index.js"></script>
+    </head>
+    <body>
+        <header role="heading">
+            <h1>Major League Baseball Wager Recommendations</h1>
+            <h2>Because baseball is more fun when you have a wager on the game</h2>
+        </header>
+        <main role="main">
+            <section class="top-page">
+                <form role="search" class="form-getdate">            
+                    <label for="search-date">Enter game date:</label>
+                    <input type="date"  id="search-date" required>
+                    <button type="submit">Submit</button>
+                </form>
+                <p class="search-error"></p>
+            </section>
+            <section class="search-results" id="search-results">
+                <h2 class=search-results-hdr>Results for Date</h2>
+                <section class="grandSlams"></section>
+                <section class="bunts"></section>
+                <section class="strikeouts"></section>
+            </section>
+        </main>
+    </body>
+</html>

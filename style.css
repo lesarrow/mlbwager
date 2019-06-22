@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+
+header {
+    margin-top: 15px;
+    text-align: center;
+
+}
+
+h1, h2 {
+    font-family: "Poppins", sans-serif;
+}
+
+header h1 {
+    margin-bottom: 5px;
+}
+
+header h2 {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+}
+
+body {
+    font-family: "PT Serif", serif;
+    font-size: 16px;
+}
+
+.top-page {
+    height: 100vh;
+}
+
+.form-getdate {
+    text-align: center;
+    padding-top: 45%;
+}
+
+.search-error {
+    display: none;
+}
+
+.search-results {
+    display: none;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.headlines {
+    list-style: none;
+}
+
