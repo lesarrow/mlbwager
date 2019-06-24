@@ -105,7 +105,7 @@ class Game {
         if (value > 0)
             return "(+" + value + ")";
 
-        return "";
+        return "(nl)";
     }
 
     setVisitorOdds(value) {
@@ -248,20 +248,20 @@ function displayTheStrikeouts(gameSchedule) {
 
     $('.strikeouts').empty();
     $('.strikeouts').append("<h3>Strikeouts - Games to Avoid</h3>");
-    $('.strikeouts').append("<ul>");
+    $('.strikeouts').append(`<ul class="strikeout-list">`);
 
     let gamesFound = false;
     for (let i=0; i<gameSchedule.length; i++) {
         if (gameSchedule[i].getRank() == 0) {
             gamesFound = true;
-            $('.strikeouts').append(`<li>${gameSchedule[i].getVisitor()} ${gameSchedule[i].getVisitorOddsStr()} @ ` +
-                `${gameSchedule[i].getHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
-            $('.strikeouts').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $('.strikeout-list').append(`<li>${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()} @ ` +
+                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
+            $('.strikeout-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
     }
 
     if (!gamesFound) {
-        $('.strikeouts').append("<li>None</li>");
+        $('.strikeout-list').append("<li>None</li>");
     }
 
     $('.strikeouts').append("</ul>");
@@ -273,26 +273,26 @@ function displayTheBunts(gameSchedule) {
 
     $('.bunts').empty();
     $('.bunts').append("<h3>Bunts - Good Bets But Riskier</h3>");
-    $('.bunts').append("<ul>");
+    $('.bunts').append(`<ul class="bunt-list">`);
 
     let gamesFound = false;
     for (let i=0; i<gameSchedule.length; i++) {
         let rank = gameSchedule[i].getRank();
         if (rank == 1) {
             gamesFound = true;
-            $('.bunts').append(`<li>${gameSchedule[i].getVisitor()} ${gameSchedule[i].getVisitorOddsStr()} @ ` +
-                `${gameSchedule[i].getHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
-            $('.bunts').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $('.bunt-list').append(`<li><span class="betonme">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</span> @ ` +
+                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
+            $('.bunt-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
         else if (rank == -1) {
-            $('.bunts').append(`<li>${gameSchedule[i].getHome()} ${gameSchedule[i].getHomeOddsStr()} vs ` +
-                `${gameSchedule[i].getVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</li>`);
-            $('.bunts').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $('.bunt-list').append(`<li><span class="betonme">${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</span> vs ` +
+                `${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</li>`);
+            $('.bunt-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
     }
 
     if (!gamesFound) {
-        $('.bunts').append("<li>None</li>");
+        $('.bunt-list').append("<li>None</li>");
     }
 
     $('.bunts').append("</ul>");
@@ -304,26 +304,26 @@ function displayTheGrandSlams(gameSchedule) {
 
     $('.grandSlams').empty();
     $('.grandSlams').append("<h3>Grand Slams - Best Bets</h3>");
-    $('.grandSlams').append("<ul>");
+    $('.grandSlams').append(`<ul class="grandslam-list">`);
 
     let gamesFound = false;
     for (let i=0; i<gameSchedule.length; i++) {
         let rank = gameSchedule[i].getRank();
         if (rank >= 2) {
             gamesFound = true;
-            $('.grandSlams').append(`<li>${gameSchedule[i].getVisitor()} ${gameSchedule[i].getVisitorOddsStr()} @ ` +
-                `${gameSchedule[i].getHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
-            $('.grandSlams').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $('.grandslam-list').append(`<li><span class="betonme">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</span> @ ` +
+                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
+            $('.grandslam-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
         else if (rank <= -2) {
-            $('.grandSlams').append(`<li>${gameSchedule[i].getHome()} ${gameSchedule[i].getHomeOddsStr()} vs ` +
-            `${gameSchedule[i].getVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</li>`);
-            $('.grandSlams').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $('.grandslam-list').append(`<li><span class="betonme">${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</span> vs ` +
+            `${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</li>`);
+            $('.grandslam-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
     }
 
     if (!gamesFound) {
-        $('.grandSlams').append("<li>None</li>");
+        $('.grandslam-list').append("<li>None</li>");
     }
 
     $('.grandSlams').append("</ul>");
@@ -366,7 +366,13 @@ function responseInJson(response) {
    
 }
 
-function getAndDisplayTheHeadlines(gameSchedule) {
+
+/* getAndDisplayTheHeadlines - Fetches the headlines from the news API and displays them to the user 
+    gameSchedule - array of Game objects
+    debug - Boolean. If true, don't fetch and display test headlines instead. This is to conserve the fetch quota from the news API.
+*/
+
+function getAndDisplayTheHeadlines(gameSchedule, debug) {
 
     /* fetch and show up to 4 articles related to the teams playing in each game */
 
@@ -376,32 +382,72 @@ function getAndDisplayTheHeadlines(gameSchedule) {
         let fetchstr = (`${NEWSAPI_CALL}&from=${todaysDate.getFullYear()}-${todaysDate.getMonth()+1}-${todaysDate.getDate()}` +
             `&q="${gameSchedule[i].getFullVisitor()}"AND"${gameSchedule[i].getFullHome()}"`);
 //        console.log(fetchstr);
-        fetch(fetchstr)
-             .then(response => responseInJson(response))
-             .then(responseJson => {
-            
-//                console.log(responseJson);
-                const MAX_NUMBER_OF_ARTICLES = 4;
+        if (!debug)
+            fetch(fetchstr)
+                .then(response => responseInJson(response))
+                .then(responseJson => {
+                
+                    console.log(responseJson);
+                    const MAX_NUMBER_OF_ARTICLES = 4;
 
-                let articlesToShow = MAX_NUMBER_OF_ARTICLES;
+                    let articlesToShow = MAX_NUMBER_OF_ARTICLES;
 
-                if (responseJson.totalResults < MAX_NUMBER_OF_ARTICLES)
-                    articlesToShow = responseJson.totalResults;
+                    if (responseJson.totalResults < MAX_NUMBER_OF_ARTICLES)
+                        articlesToShow = responseJson.totalResults;
 
-                /* Show links up to the MAX_NUMBER_OF_ARTICLES */
+                    /* Show links up to the MAX_NUMBER_OF_ARTICLES */
 
-                let gameID = gameSchedule[i].getGameId();
-                for (let j=0; j<articlesToShow; j++) 
-                    $(`#${gameID}`).append(`<li><a href="${responseJson.articles[j].url}">${responseJson.articles[j].title}</a></li>`);
-             })
-             .catch(err => {
-                console.log("An unexpected error occurred in getAndDisplayTheHeadlines: " + err.statusText);    
-             });             
+                    let gameID = gameSchedule[i].getGameId();
+                    let headlineList = [];
+                    let articlesShown = 0;
+                    for (let j=0; j<responseJson.totalResults; j++) {
+                        if (headlineList.indexOf(responseJson.articles[j].title) <= -1) {
+                            $(`#${gameID}`).append(
+                                `<li><a target="_blank" href="${responseJson.articles[j].url}">${responseJson.articles[j].title}</a></li>`);
+                            headlineList.push(responseJson.articles[j].title);
+                            articlesShown++;
+                            if (articlesShown >= articlesToShow)
+                                break;
+                        }
+                        else continue;
+                    }
+                })
+                .catch(err => {
+                    console.log("An unexpected error occurred in getAndDisplayTheHeadlines: " + err.statusText);    
+                });             
+        else {
+            let gameID = gameSchedule[i].getGameId();
+            for (let j=0; j<4; j++) 
+                $(`#${gameID}`).append(`<li><a target="_blank" href=".">Test Link ${j}</a></li>`);
+        }
     }
 
 }
 
+
+/* returns today's date in YYYY-MM-DD format */
+
+function getTodaysDate() {
+
+    let dateObj = new Date();
+
+    let month = dateObj.getMonth()+1;
+    if (dateObj.getMonth() < 10)
+        month = "0" + month;
+
+    let dateStr = dateObj.getDate();
+    if (dateStr < 10)
+        dateStr = "0" + dateStr;
+
+    return dateObj.getFullYear() + "-" + month + "-" + dateStr;
+
+}
+
 function handleWebpage() {
+
+    /* Set the default date to today */
+
+    $('#search-date').attr("value", getTodaysDate());
   
     /* Get the date from the user and use that to search what games are available */
 
@@ -431,15 +477,20 @@ function handleWebpage() {
                 fetch(MYSPORTSFEEDS_ODDS + searchDate + "/odds_gamelines.json", {headers: MYSPORTSFEEDS_HEADERS})
                     .then(response => responseInJson(response))
                     .then (responseJson => {
+                        // throw new Error("Oh no!");
                         addTheGameOdds(gameSchedule, responseJson);
                         rankTheGames(gameSchedule);
                         displayTheGames(gameSchedule);
-                        getAndDisplayTheHeadlines(gameSchedule);
+                        getAndDisplayTheHeadlines(gameSchedule, true);
                     });
 
             })
             .catch (err => {
+                $('.search-results').hide();
                 console.log("An unexpected error occurred in handleWebpage: " + err.statusText);                
+                $('.search-error').empty();
+                $('.search-error').append(`An unexpected error occurred in handleWebpage: ${err.statusText}`);
+                $('search-error').show();
             });
      });
 }

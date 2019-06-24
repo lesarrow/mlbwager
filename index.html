@@ -15,20 +15,23 @@
     </head>
     <body>
         <header role="heading">
-            <h1>Major League Baseball Wager Recommendations</h1>
-            <h2>Because baseball is more fun when you have a wager on the game</h2>
+            <h1 class="site-title">Major League Baseball</h1>
+            <h1 class="site-title-2"> Wager Recommendations</h1>
+            <div>
+            <h2 class="site-caption">Because baseball is more fun when</h2>
+            <h2 class="site-caption-2"> you have a wager on the game</h2>
+            </div>
         </header>
         <main role="main">
-            <section class="top-page">
-                <form role="search" class="form-getdate">            
-                    <label for="search-date">Enter game date:</label>
-                    <input type="date"  id="search-date" required>
-                    <button type="submit">Submit</button>
-                </form>
-                <p class="search-error"></p>
-            </section>
+            <form role="search" class="form-getdate">            
+                <label class="label-search-date" for="search-date">Enter game date</label>
+                <input type="date"  id="search-date" required>
+                <button type="submit">Submit</button>
+            </form>
+            <p class="search-error"></p>
             <section class="search-results" id="search-results">
                 <h2 class=search-results-hdr>Results for Date</h2>
+                <p class="instructions">Instructions: Bet on the team in bold</p>
                 <section class="grandSlams"></section>
                 <section class="bunts"></section>
                 <section class="strikeouts"></section>

@@ -8,45 +8,114 @@ header {
 
 }
 
-h1, h2 {
+h1, h2, h3, h4 {
     font-family: "Poppins", sans-serif;
 }
 
 header h1 {
-    margin-bottom: 5px;
+    margin-bottom: 0;
+}
+
+.site-title-2 {
+    margin: 0 0 8px 0;
 }
 
 header h2 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     margin: 0;
+    font-style: italic;
 }
 
 body {
     font-family: "PT Serif", serif;
-    font-size: 16px;
-}
-
-.top-page {
-    height: 100vh;
+    font-size: 17px;
 }
 
 .form-getdate {
     text-align: center;
-    padding-top: 20%;
+    margin-top: 50px;
 }
 
 .search-error {
     display: none;
 }
 
+.search-results-hdr {
+    margin: 50px 0 30px;
+}
+
+.instructions {
+    margin: 0;
+    font-size: 17px;
+    font-style: italic;
+}
+
 .search-results {
     display: none;
     text-align: center;
-    margin-bottom: 20px;
+    margin: 0 5px 20px;
+}
+
+.search-results h3 {
+    font-size: 22px;
+}
+
+.grandSlams, .bunts, .strikeouts {
+    border: 3px solid black;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.grandSlams h3, .bunts h3, .strikeouts h3 {
+    margin-bottom: 25px;
+}
+
+.grandSlams {
+    background-color: lightgreen;
+}
+
+.bunts {
+    background-color: rgb(235, 235, 152);
+}
+
+.grandslam-list, .bunt-list, .strikeout-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 20px;
+    text-align: left;
+}
+
+.grandslam-list > li, .bunt-list > li, .strikeout-list > li {
+
+    padding: 0;
+}
+
+.strikeouts {
+    background-color: lightcoral;
+}
+
+.betonme {
+    font-weight: 900;
 }
 
 .headlines {
-    list-style: none;
+    list-style: square inside;
+    padding: 17px 0;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.25;
+}
+
+@media screen and (min-width: 1000px) {
+
+    .site-title, .site-title-2, .site-caption, .site-caption-2 {
+        display: inline-block;
+    }
+
+    .site-title-2, .site-caption-2 {
+        margin-left: 3px;
+    }
+
 }
 
