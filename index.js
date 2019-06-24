@@ -481,7 +481,7 @@ function handleWebpage() {
                         addTheGameOdds(gameSchedule, responseJson);
                         rankTheGames(gameSchedule);
                         displayTheGames(gameSchedule);
-                        getAndDisplayTheHeadlines(gameSchedule, true);
+                        getAndDisplayTheHeadlines(gameSchedule, false);
                     });
 
             })
