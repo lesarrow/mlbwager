@@ -5,7 +5,6 @@
 header {
     margin-top: 15px;
     text-align: center;
-
 }
 
 h1, h2, h3, h4 {
@@ -20,6 +19,10 @@ header h1 {
     margin: 0 0 8px 0;
 }
 
+.site-caption, .site-caption-2 {
+    font-weight: 600;
+}
+
 header h2 {
     font-size: 18px;
     font-weight: 400;
@@ -30,11 +33,37 @@ header h2 {
 body {
     font-family: "PT Serif", serif;
     font-size: 17px;
+    position: relative; 
+    height: 100vh;
+    background-color: rgb(176, 188, 194);
+    color: black;
 }
+
+ body::after {
+    content: "";
+    background-image: url("./falling_money_PNG15430.png");
+    height: 100%;
+    opacity: 0.2;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;   
+} 
+
 
 .form-getdate {
     text-align: center;
     margin-top: 50px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.label-search-date {
+    font-weight: 600;
 }
 
 .search-error {
@@ -86,9 +115,14 @@ body {
     text-align: left;
 }
 
-.grandslam-list > li, .bunt-list > li, .strikeout-list > li {
+.matchup {
+    margin: 0;
+}
+
+.grandslam-list > p, .bunt-list > p, .strikeout-list > p {
 
     padding: 0;
+    margin: 0;
 }
 
 .strikeouts {
@@ -107,6 +141,10 @@ body {
     line-height: 1.25;
 }
 
+.no-games {
+    margin-bottom: 17px;
+}
+
 @media screen and (min-width: 1000px) {
 
     .site-title, .site-title-2, .site-caption, .site-caption-2 {
@@ -115,6 +153,25 @@ body {
 
     .site-title-2, .site-caption-2 {
         margin-left: 3px;
+    }
+
+    .matchup {
+        width: 50%;
+        text-align: right;  
+        border-right: 3px solid black;
+        padding-right: 10px;
+    }
+
+    .gamebox {
+        display: flex;
+        margin-bottom: 10px;
+    }
+
+    .headlines {
+        width: 50%;
+        list-style: square outside;
+        margin-left: 20px;
+        padding: 0;
     }
 
 }

@@ -254,14 +254,19 @@ function displayTheStrikeouts(gameSchedule) {
     for (let i=0; i<gameSchedule.length; i++) {
         if (gameSchedule[i].getRank() == 0) {
             gamesFound = true;
-            $('.strikeout-list').append(`<li>${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()} @ ` +
-                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
-            $('.strikeout-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+
+            let kListItem = `gamebox-${gameSchedule[i].getGameId()}`;
+            $('.strikeout-list').append(`<li class="${kListItem} gamebox">`);
+
+            $(`.${kListItem}`).append(`<p class="matchup">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()} @ ` +
+                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</p>`);
+            $(`.${kListItem}`).append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $('.strikeout-list').append("</li>");
         }
     }
 
     if (!gamesFound) {
-        $('.strikeout-list').append("<li>None</li>");
+        $('.strikeout-list').append(`<li class="no-games">No games listed</li>`);
     }
 
     $('.strikeouts').append("</ul>");
@@ -278,21 +283,29 @@ function displayTheBunts(gameSchedule) {
     let gamesFound = false;
     for (let i=0; i<gameSchedule.length; i++) {
         let rank = gameSchedule[i].getRank();
+
+        /* If the game is not a bunt, continue */
+        if ((rank != 1) && (rank != -1))
+            continue;
+        else gamesFound = true;
+
+        let buntListItem = `gamebox-${gameSchedule[i].getGameId()}`;
+        $('.bunt-list').append(`<li class="${buntListItem} gamebox">`);
         if (rank == 1) {
-            gamesFound = true;
-            $('.bunt-list').append(`<li><span class="betonme">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</span> @ ` +
-                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
-            $('.bunt-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $(`.${buntListItem}`).append(`<p class="matchup"><span class="betonme">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</span> @ ` +
+                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</p>`);
+            $(`.${buntListItem}`).append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
         else if (rank == -1) {
-            $('.bunt-list').append(`<li><span class="betonme">${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</span> vs ` +
-                `${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</li>`);
-            $('.bunt-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $(`.${buntListItem}`).append(`<p class="matchup"><span class="betonme">${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</span> vs ` +
+                `${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</p>`);
+            $(`.${buntListItem}`).append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
+        $('.bunt-list').append("</li>");
     }
 
     if (!gamesFound) {
-        $('.bunt-list').append("<li>None</li>");
+        $('.bunt-list').append(`<li class="no-games">No games listed</li>`);
     }
 
     $('.bunts').append("</ul>");
@@ -309,21 +322,31 @@ function displayTheGrandSlams(gameSchedule) {
     let gamesFound = false;
     for (let i=0; i<gameSchedule.length; i++) {
         let rank = gameSchedule[i].getRank();
+
+        /* If the game is not a grandslam, continue */
+
+        if ((rank < 2) && (rank > -2))
+            continue;
+        else gamesFound = true;
+
+        let grandslamListItem = `gamebox-${gameSchedule[i].getGameId()}`;
+        $('.grandslam-list').append(`<li class="${grandslamListItem} gamebox">`);
         if (rank >= 2) {
-            gamesFound = true;
-            $('.grandslam-list').append(`<li><span class="betonme">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</span> @ ` +
-                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</li>`);
-            $('.grandslam-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            $(`.${grandslamListItem}`).append(`<p class="matchup"><span class="betonme">${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</span> @ ` +
+                `${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</p>`);
+            $(`.${grandslamListItem}`).append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
         else if (rank <= -2) {
-            $('.grandslam-list').append(`<li><span class="betonme">${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</span> vs ` +
-            `${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</li>`);
-            $('.grandslam-list').append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
+            gamesFound = true;
+            $(`.${grandslamListItem}`).append(`<p class="matchup"><span class="betonme">${gameSchedule[i].getFullHome()} ${gameSchedule[i].getHomeOddsStr()}</span> vs ` +
+                `${gameSchedule[i].getFullVisitor()} ${gameSchedule[i].getVisitorOddsStr()}</p>`);
+            $(`.${grandslamListItem}`).append(`<ul class="headlines" id="${gameSchedule[i].getGameId()}"></ul>`);
         }
+        $('grandslam-list').append("</li>");
     }
 
     if (!gamesFound) {
-        $('.grandslam-list').append("<li>None</li>");
+        $('.grandslam-list').append(`<li class="no-games">No games listed</li>`);
     }
 
     $('.grandSlams').append("</ul>");
@@ -351,7 +374,7 @@ function displayTheGames(gameSchedule) {
 
     /* Scroll the document down to the results */
 
-    document.getElementById("search-results").scrollIntoView();
+//    document.getElementById("search-results").scrollIntoView();
 }
 
 
@@ -387,7 +410,7 @@ function getAndDisplayTheHeadlines(gameSchedule, debug) {
                 .then(response => responseInJson(response))
                 .then(responseJson => {
                 
-                    console.log(responseJson);
+//                    console.log(responseJson);
                     const MAX_NUMBER_OF_ARTICLES = 4;
 
                     let articlesToShow = MAX_NUMBER_OF_ARTICLES;
@@ -443,6 +466,16 @@ function getTodaysDate() {
 
 }
 
+
+/* setCursor - sets the cursor to the state of the paramter given
+    state - the state to set the cursor to
+*/
+
+function setCursor(state) {
+    $('html').css("cursor", state);
+}
+
+
 function handleWebpage() {
 
     /* Set the default date to today */
@@ -454,7 +487,8 @@ function handleWebpage() {
     $('form').submit(e => {
 
         e.preventDefault();
-
+        setCursor("progress");
+    
         /* The Mysportsfeeds API requires the date in a yyyymmdd format */
 
         let searchDate = formatDateForMySportsFeeds($('#search-date').val());
@@ -485,12 +519,16 @@ function handleWebpage() {
                     });
 
             })
+            .then(() => {
+                setCursor("default");
+            })
             .catch (err => {
                 $('.search-results').hide();
                 console.log("An unexpected error occurred in handleWebpage: " + err.statusText);                
                 $('.search-error').empty();
                 $('.search-error').append(`An unexpected error occurred in handleWebpage: ${err.statusText}`);
                 $('search-error').show();
+                setCursor("default");
             });
      });
 }
