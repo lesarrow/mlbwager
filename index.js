@@ -15,6 +15,9 @@ const MYSPORTSFEEDS_ODDS = "https://api.mysportsfeeds.com/v2.1/pull/mlb/current/
 
 const NEWSAPI_CALL = "https://newsapi.org/v2/everything?apiKey=758ddae94aa246708e4cb23dd2754da1";
 
+/* TEAMKEY - a team mapping from the abbreviations return from the API to the complete team name. Used for 
+    display purposes and also for searching news */
+
 const TEAMKEY = {
     NYY: "New York Yankees",
     TB: "Tampa Bay Rays",
@@ -50,8 +53,10 @@ const TEAMKEY = {
 
 /* class Game - 
     visitor, home - the abbreviation of the competing teams
-    gameid - used in future api calls to identify a game
+    gameid - used in future api calls to identify a particular game
     rank - the value of this game in terms of whether or not to make a bet
+    visitorOdds, homeOdds - holds the odds to bet on each team
+    rank - a numerical evaluation of the viability of betting on the game
 */
 
 class Game {
@@ -98,6 +103,8 @@ class Game {
         this.gameid = value;
     }
 
+    /* oddToString - converts odds value to be more readable */
+
     oddsToString(value) {
         if (value < 0)
             return "(" + value + ")";
@@ -140,6 +147,8 @@ class Game {
         this.rank = value;
     }
 
+    /* An auxilliary method to display the value of the object */
+
     printToConsole() {
         console.log(`${this.visitor} ${this.visitorOdds} @ ${this.home} ${this.homeOdds} ID: ${this.gameid}`);
     }
@@ -159,6 +168,11 @@ function formatDateForMySportsFeeds(inputDate) {
     return x[0] + x[1] + x[2];
 }
 
+
+
+/* buildListOfGames - takes the Json response from the API and converts it into an array of Game objects 
+    responseJson - API response in JSON format
+*/
 
 function buildListOfGames(responseJson) {
 
@@ -244,6 +258,11 @@ function addTheGameOdds(gameSchedule, oddsJson) {
 }
 
 
+
+/* displayTheStrikeouts - given the game schedule, displays the games in the strikeout section of the layout
+    gameSchedule - array of game objects
+*/
+
 function displayTheStrikeouts(gameSchedule) {
 
     $('.strikeouts').empty();
@@ -274,6 +293,10 @@ function displayTheStrikeouts(gameSchedule) {
 }
 
 
+/* displayTheBunts - given the game schedule, displays the games in the bunt section of the layout
+    gameSchedule - array of game objects
+*/
+
 function displayTheBunts(gameSchedule) {
 
     $('.bunts').empty();
@@ -288,6 +311,9 @@ function displayTheBunts(gameSchedule) {
         if ((rank != 1) && (rank != -1))
             continue;
         else gamesFound = true;
+
+        /* Bunts are ranked either 1 or -1 defining whether to bet on the home or visiting team. 
+            Depending on the rank, the display is altered */
 
         let buntListItem = `gamebox-${gameSchedule[i].getGameId()}`;
         $('.bunt-list').append(`<li class="${buntListItem} gamebox">`);
@@ -313,6 +339,11 @@ function displayTheBunts(gameSchedule) {
 
 }
 
+
+/* displayTheGrandSlams - given the game schedule, displays the games in the grand slam section of the layout
+    gameSchedule - array of game objects
+*/
+
 function displayTheGrandSlams(gameSchedule) {
 
     $('.grandSlams').empty();
@@ -328,6 +359,9 @@ function displayTheGrandSlams(gameSchedule) {
         if ((rank < 2) && (rank > -2))
             continue;
         else gamesFound = true;
+
+        /* Grandslams are ranked either >=2 or <=-2 defining whether to bet on the home or visiting team. 
+            Depending on the rank, the display is altered */
 
         let grandslamListItem = `gamebox-${gameSchedule[i].getGameId()}`;
         $('.grandslam-list').append(`<li class="${grandslamListItem} gamebox">`);
@@ -404,13 +438,11 @@ function getAndDisplayTheHeadlines(gameSchedule, debug) {
         let todaysDate = new Date();
         let fetchstr = (`${NEWSAPI_CALL}&from=${todaysDate.getFullYear()}-${todaysDate.getMonth()+1}-${todaysDate.getDate()}` +
             `&q="${gameSchedule[i].getFullVisitor()}"AND"${gameSchedule[i].getFullHome()}"`);
-//        console.log(fetchstr);
         if (!debug)
             fetch(fetchstr)
                 .then(response => responseInJson(response))
                 .then(responseJson => {
                 
-//                    console.log(responseJson);
                     const MAX_NUMBER_OF_ARTICLES = 4;
 
                     let articlesToShow = MAX_NUMBER_OF_ARTICLES;
@@ -511,7 +543,6 @@ function handleWebpage() {
                 fetch(MYSPORTSFEEDS_ODDS + searchDate + "/odds_gamelines.json", {headers: MYSPORTSFEEDS_HEADERS})
                     .then(response => responseInJson(response))
                     .then (responseJson => {
-                        // throw new Error("Oh no!");
                         addTheGameOdds(gameSchedule, responseJson);
                         rankTheGames(gameSchedule);
                         displayTheGames(gameSchedule);
