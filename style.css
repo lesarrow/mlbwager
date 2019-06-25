@@ -2,6 +2,10 @@
     box-sizing: border-box;
 }
 
+html {
+    min-width: 463px;
+}
+
 header {
     margin-top: 15px;
     text-align: center;

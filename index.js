@@ -504,7 +504,7 @@ function getTodaysDate() {
 */
 
 function setCursor(state) {
-    $('html').css("cursor", state);
+    $('*').css("cursor", state);
 }
 
 
