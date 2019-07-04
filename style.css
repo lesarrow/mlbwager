@@ -3,7 +3,7 @@
 }
 
 html {
-    min-width: 463px;
+    min-width: 320px; 
 }
 
 header {
@@ -178,5 +178,13 @@ button:hover {
         padding: 0;
     }
 
+}
+
+@media screen and (max-width: 375px) {
+
+    .form-getdate button {
+        display: block;
+        margin: 5px auto 0;
+    }
 }
 
